@@ -28,7 +28,7 @@ class strlist :
         elif str_type == list :
             self._list = data
             self._str = "".join(map(chr,self._list))
-        else : raise TypeError , 'strlist init : Valid types are str and  list of int'
+        else : raise TypeError('strlist init : Valid types are str and  list of int')
 
     # return string
     def str(self) :

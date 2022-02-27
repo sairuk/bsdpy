@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 ################################################################################
 # Copyright 2015 The Regents of the University of Michigan
 #
@@ -23,10 +23,10 @@
 #
 # Requirements:
 #
-# - Python 2.5 or later. Not tested with Python 3.
+# - Python 3.8 or later. Not tested with Python 3.
 #
 # - A Linux distribution that supports:
-#   Python 2.5 or later
+#   Python 3.8 or later
 #   NFS service
 #   TFTP service
 #
@@ -55,7 +55,13 @@
 #   or upstart this should not be an issue.
 #
 
-from urlparse import urlparse, urlunsplit
+import sys
+
+if sys.version_info.major == 3:
+    from urllib.parse import urlparse, urlunsplit
+elif sys.version_info.major == 2:
+    from urlparse import urlparse, urlunsplit  
+
 import socket
 import struct
 import fcntl
@@ -149,7 +155,8 @@ def get_ip(iface=''):
     sockfd = sock.fileno()
     SIOCGIFADDR = 0x8915
 
-    ifreq = struct.pack('16sH14s', iface, socket.AF_INET, '\x00' * 14)
+    ifreq = struct.pack('16sH14s', bytes(iface,'utf-8'), socket.AF_INET, b'\x00'*14)
+
     try:
         res = fcntl.ioctl(sockfd, SIOCGIFADDR, ifreq)
     except:
@@ -161,7 +168,7 @@ dockervars = {}
 redisvars = {}
 
 try:
-    for envkey, envvalue in os.environ.iteritems():
+    for envkey, envvalue in os.environ.items():
         if envkey.startswith('BSDPY'):
             dockervars[envkey] = envvalue
         if envkey.startswith('DB'):
@@ -243,6 +250,7 @@ try:
         serverip_str = myip
     else:
         myip = get_ip(serverinterface)
+        print(myip)
         serverhostname = myip
         serverip = map(int, myip.split('.'))
         serverip_str = myip
@@ -1128,7 +1136,7 @@ def main():
         #   reload the nbiimages list.
         try:
             packet = server.GetNextDhcpPacket()
-        except select.error, e:
+        except select.error as e:
             if e[0] != errno.EINTR: raise
 
         try:

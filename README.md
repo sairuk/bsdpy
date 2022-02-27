@@ -5,6 +5,11 @@ BSDPy is a platform-independent Apple NetBoot (BSDP) service for organizations
 that have a need for Apple Mac NetBoot functionality but that lack the ability
 to support OS X server in order to implement it.
 
+### About this repo (re:sairuk)
+This is an attempt to port BSDPy & pydhcplib to python3, glaring incompatiblies
+have been tidied up but this remains alpha and untested, pull requests are
+welcome, changes have been made in the api branch.
+
  
 
 General Functionality

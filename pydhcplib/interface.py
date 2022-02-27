@@ -18,7 +18,7 @@ import socket
 class interface:
     """ ioctl stuff """
 
-    IFNAMSIZ = 16               # interface name size
+    IFNAMSIZ = 16               # interface name size
 
     # From <bits/ioctls.h>
 
